@@ -208,7 +208,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+            sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
             sudo apt update
             sudo apt-get install ansible nodejs npm 
       - run:
