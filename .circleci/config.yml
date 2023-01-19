@@ -202,7 +202,7 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: image: cimg/aws:2022.11
+      - image: cimg/aws:2022.11
     steps:
       - checkout
       - run:
