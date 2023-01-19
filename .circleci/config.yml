@@ -164,7 +164,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["49:c4:72:09:31:ed:e8:e5:01:e9:3f:c7:fd:ed:e4:9e:64:a9:24:f7"]
+          fingerprints: ["4c:6e:b2:c7:d6:e4:f7:ee:5e:78:89:10:a3:4d:6a:c0"]
       - attach_workspace:
           at: ~/
       - run:
@@ -202,13 +202,13 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: amazon/aws-cli
+      - image: image: cimg/aws:2022.11
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            yum -y install tar
+            apt-get install ansible nodejs npm 
       - run:
           name: Get backend url
           command: |
@@ -229,6 +229,7 @@ jobs:
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
 
+
 workflows:
   default:
     jobs:
@@ -244,3 +245,12 @@ workflows:
           requires: [build-backend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+          filters:
+            branches:
+              only: [master]
+      - run-migrations:
+          requires: [configure-infrastructure]
+      - deploy-frontend:
+          requires: [configure-infrastructure]
