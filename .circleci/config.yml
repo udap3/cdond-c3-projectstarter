@@ -250,18 +250,15 @@ jobs:
       - run:
           name: Deploy backend
           command: |
-            pwd
-            ls
             cd backend
             npm i
             npm run build
             cd ..
             tar -C backend -czvf artifact.tar.gz .
+            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             cd .circleci/ansible
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
-            cd ../../
-            cp artifact.tar.gz .circleci/ansible/roles/deploy/files
             ANSIBLE_HOST_KEY_CHECKING=False  ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
 
