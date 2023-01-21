@@ -237,6 +237,7 @@ jobs:
     docker:
       - image: cimg/python:3.10
     steps:
+      - checkout
       - add_ssh_keys:
           fingerprints: ["4c:6e:b2:c7:d6:e4:f7:ee:5e:78:89:10:a3:4d:6a:c0"]
       - attach_workspace:
