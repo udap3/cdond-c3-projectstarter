@@ -250,6 +250,7 @@ jobs:
           name: Deploy backend
           command: |
             pwd
+            ls
             cd backend
             npm i
             npm run build
