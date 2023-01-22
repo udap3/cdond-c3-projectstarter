@@ -12,7 +12,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws s3 rm s3://udapeople-740873095896 --recursive
+            aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflow_id>>
 
@@ -284,7 +284,7 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/base:2023.01
+      - image: amazon/aws-cli
     steps:
       - run:
           name: Frontend smoke test.
