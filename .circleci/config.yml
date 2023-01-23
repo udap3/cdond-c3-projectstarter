@@ -334,7 +334,7 @@ jobs:
         - run:
             name: Get old stack workflow id
             command: |
-              cat ~/OldWorkflowID.txt
+              cat ~/project/OldWorkflowID.txt
               OldWorkflowID=$(cat ~/OldWorkflowID.txt)
 
         - run:
