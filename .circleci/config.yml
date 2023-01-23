@@ -323,6 +323,9 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
+        - checkout
+        - attach_workspace:
+            at: ~/
         - run:
             name: Get old stack workflow id
             command: |
@@ -340,6 +343,14 @@ jobs:
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
               fi
+        - run:
+          name: save workflowid to a file
+          command: |
+            echo ${CIRCLE_WORKFLOW_ID:0:7} > OldWorkflowID.txt
+        - persist_to_workspace:
+            root: ~/
+            paths:
+              - project/OldWorkflowID.txt
 
 workflows:
   default:
