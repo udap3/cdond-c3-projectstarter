@@ -308,6 +308,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install tar as required for workspace
+          command: |
+            yum -y install tar
+      - run:
           name: Update cloudfront distribution
           command: |
               aws cloudformation deploy \
