@@ -308,10 +308,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install tar as required for workspace
-          command: |
-            yum -y install tar
-      - run:
           name: Update cloudfront distribution
           command: |
               aws cloudformation deploy \
@@ -328,13 +324,13 @@ jobs:
         - image: amazon/aws-cli
       steps:
         - checkout
+        - run:
+            name: install tar as required for workspace
+            command: |
+              yum -y install tar
         - attach_workspace:
             at: ~/
-        - run:
-            name: Get old stack workflow id
-            command: |
-              cat ~/OldWorkflowID.txt
-              OldWorkflowID=$(cat ~/OldWorkflowID.txt)
+
         - run:
             name: Remove old stacks and files
             command: |
