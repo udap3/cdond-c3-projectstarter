@@ -331,12 +331,16 @@ jobs:
               yum -y install gzip
         - attach_workspace:
             at: ~/
+        - run:
+            name: Get old stack workflow id
+            command: |
+              cat ~/OldWorkflowID.txt
+              OldWorkflowID=$(cat ~/OldWorkflowID.txt)
 
         - run:
             name: Remove old stacks and files
             command: |
-              #if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
-              if false
+              if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
                 aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
