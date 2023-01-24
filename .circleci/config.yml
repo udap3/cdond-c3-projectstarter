@@ -334,7 +334,7 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
-        - restore_cache
+        - restore_cache:
             keys:
               - my-cache
         - run:
