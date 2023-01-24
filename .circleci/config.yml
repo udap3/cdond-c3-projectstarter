@@ -308,6 +308,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Save Old Workflow ID to kvdb.io
+          command: |
+              export OLD_WORKFLOW_ID=$(aws cloudformation \
+                      list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+                      --no-paginate --output text)
+              echo "$OLD_WORKFLOW_ID" > OldWorkflowID.txt
+      - save_cache:
+          key: my-cache
+          paths:
+            - OldWorkflowID.txt
+      - run:
           name: Update cloudfront distribution
           command: |
               aws cloudformation deploy \
@@ -323,20 +334,16 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
-        - checkout
-        - run:
-            name: install tar and gzip as required for workspace
-            command: |
-              yum -y install tar
-              yum -y install gzip
-        - attach_workspace:
-            at: ~/
+        - restore_cache
+            keys:
+              - my-cache
         - run:
             name: Get old stack workflow id
             command: |
               cat ~/project/OldWorkflowID.txt
               OldWorkflowID=$(cat ~/OldWorkflowID.txt)
-
+              export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+                --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
         - run:
             name: Remove old stacks and files
             command: |
