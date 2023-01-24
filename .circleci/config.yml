@@ -335,6 +335,10 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
+        - run:
+            name: install tar as required for cache
+            command: |
+              yum -y install tar
         - restore_cache:
             keys:
               - my-cache
