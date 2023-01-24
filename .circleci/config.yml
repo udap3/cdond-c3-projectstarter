@@ -339,6 +339,7 @@ jobs:
             name: install tar as required for cache
             command: |
               yum -y install tar
+              yum -y install gzip
         - restore_cache:
             keys:
               - my-cache
