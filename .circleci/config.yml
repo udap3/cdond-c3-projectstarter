@@ -351,9 +351,6 @@ jobs:
               export OldWorkflowID=$(cat OldWorkflowID.txt)
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                 --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
-        - run:
-            name: Remove old stacks and files
-            command: |
               if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
               then
                 echo "s3://udapeople-${OldWorkflowID}"
