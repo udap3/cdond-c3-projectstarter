@@ -314,6 +314,7 @@ jobs:
                       list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
                       --no-paginate --output text)
               echo "$OLD_WORKFLOW_ID" > OldWorkflowID.txt
+              pwd
       - save_cache:
           key: my-cache
           paths:
@@ -340,6 +341,7 @@ jobs:
         - run:
             name: Get old stack workflow id
             command: |
+              pwd
               cat OldWorkflowID.txt
               OldWorkflowID=$(cat OldWorkflowID.txt)
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
