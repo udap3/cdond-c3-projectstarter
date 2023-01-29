@@ -70,6 +70,7 @@ jobs:
           name: Back-end build
           command: |
             cd backend
+            npm install --package-lock
             npm install
             npm run build
 
