@@ -64,7 +64,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Back-end build
           command: |
@@ -74,7 +74,7 @@ jobs:
 
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-build
+          key: backend-deps-{{ checksum "backend/package-lock.json" }}
 
   test-frontend:
     docker:
