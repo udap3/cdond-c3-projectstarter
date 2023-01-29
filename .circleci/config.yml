@@ -127,7 +127,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-deps-{{ checksum "backend/package-lock.json" }}]
+          keys: backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
           name: backend scan
           command: |
